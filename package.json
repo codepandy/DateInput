@@ -1,0 +1,43 @@
+{
+  "name": "date-input",
+  "private": true,
+  "version": "1.0.0",
+  "description": "一个快速输入的日期控件，只输入数字自动转换和验证结果",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "date-input.umd.ts",
+  "module": "date-input.es.ts",
+  "exports": {
+    ".": {
+      "import": "./date-input.es.ts",
+      "require": "./date-input.umd.ts"
+    }
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "dayjs": "^1.11.7",
+    "v-calendar": "^3.1.2",
+    "vue": "^3.3.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vue-tsc": "^1.8.22"
+  },
+  "keywords": [
+    "date",
+    "datepicker",
+    "calendar",
+    "vue-date",
+    "vue-datepicker"
+  ],
+  "author": "wenmu"
+}
