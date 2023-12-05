@@ -1,6 +1,6 @@
 {
   "name": "date-input",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
   "description": "一个快速输入的日期控件，只输入数字自动转换和验证结果",
   "type": "module",
