@@ -167,6 +167,17 @@ const onBlur = (e) => {
       txtDate.value = `${val} 00:00:00`;
       emit('callback', txtDate.value);
     }
+    const reg = /^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:$/;
+    if (reg.test(val)) {
+      txtDate.value = `${val}00`;
+    }
+    const reg1 = /^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$/;
+    if (reg1.test(val)) {
+      txtDate.value = `${val}:00`;
+    }
+    isError.value = !(
+      isValidDateTime(txtDate.value) || isValidDate(txtDate.value)
+    );
   } else {
     isError.value = false;
   }
