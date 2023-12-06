@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import dayjs from 'dayjs';
 const props = defineProps({
   disabled: {
@@ -84,48 +84,66 @@ const onInput = (e) => {
     isError.value = false;
     return;
   }
+  const { selectionStart } = e.target;
 
   if (!isBackspace.value) {
     const reg = /^[1-9][0-9]{0,3}[0-9-\s:]*$/;
     if (reg.test(val)) {
-      const allNumber = val.replace(/[-\s:]/g, '');
-      console.log('allNumber', allNumber);
-      let year = '';
-      let month = '';
-      let day = '';
-      let hour = '';
-      let minute = '';
-      if (allNumber.length === 4) {
-        year = allNumber.substring(0, 4);
-        txtDate.value = `${year}-`;
-      }
-      if (allNumber.length === 6) {
-        year = allNumber.substring(0, 4);
-        month = allNumber.substring(4, 6);
-        txtDate.value = `${year}-${month}-`;
-      }
-      if (allNumber.length === 8) {
-        year = allNumber.substring(0, 4);
-        month = allNumber.substring(4, 6);
-        day = allNumber.substring(6, 8);
-        txtDate.value = `${year}-${month}-${day}`;
-      }
-      if (allNumber.length === 10) {
-        year = allNumber.substring(0, 4);
-        month = allNumber.substring(4, 6);
-        day = allNumber.substring(6, 8);
-        hour = allNumber.substring(8, 10);
-        txtDate.value = `${year}-${month}-${day} ${hour}:`;
-      }
-      if (allNumber.length === 12) {
-        year = allNumber.substring(0, 4);
-        month = allNumber.substring(4, 6);
-        day = allNumber.substring(6, 8);
-        hour = allNumber.substring(8, 10);
-        minute = allNumber.substring(10, 12);
-        txtDate.value = `${year}-${month}-${day} ${hour}:${minute}:`;
-      }
-      if (allNumber.length === 13 || allNumber.length === 14) {
+      if (selectionStart === val.length) {
+        const allNumber = val.replace(/[-\s:]/g, '');
+        let year = '';
+        let month = '';
+        let day = '';
+        let hour = '';
+        let minute = '';
+        if (allNumber.length === 4) {
+          year = allNumber.substring(0, 4);
+          txtDate.value = `${year}-`;
+        }
+        if (allNumber.length === 6) {
+          year = allNumber.substring(0, 4);
+          month = allNumber.substring(4, 6);
+          txtDate.value = `${year}-${month}-`;
+        }
+        if (allNumber.length === 8) {
+          year = allNumber.substring(0, 4);
+          month = allNumber.substring(4, 6);
+          day = allNumber.substring(6, 8);
+          txtDate.value = `${year}-${month}-${day}`;
+        }
+        if (allNumber.length === 10) {
+          year = allNumber.substring(0, 4);
+          month = allNumber.substring(4, 6);
+          day = allNumber.substring(6, 8);
+          hour = allNumber.substring(8, 10);
+          txtDate.value = `${year}-${month}-${day} ${hour}:`;
+        }
+        if (allNumber.length === 12) {
+          year = allNumber.substring(0, 4);
+          month = allNumber.substring(4, 6);
+          day = allNumber.substring(6, 8);
+          hour = allNumber.substring(8, 10);
+          minute = allNumber.substring(10, 12);
+          txtDate.value = `${year}-${month}-${day} ${hour}:${minute}:`;
+        }
+        if (allNumber.length === 13 || allNumber.length === 14) {
+          // 判断是否有冒号
+          if (
+            allNumber.length === 13 &&
+            txtDate.value?.substring(txtDate.value.length - 1) !== ':'
+          ) {
+            year = allNumber.substring(0, 4);
+            month = allNumber.substring(4, 6);
+            day = allNumber.substring(6, 8);
+            hour = allNumber.substring(8, 10);
+            minute = allNumber.substring(10, 12);
+            let sec = allNumber.substring(12);
+            txtDate.value = `${year}-${month}-${day} ${hour}:${minute}:${sec}`;
+          } else {
+            txtDate.value = val;
+          }
+        }
+      } else {
         txtDate.value = val;
       }
     } else {
@@ -165,6 +183,10 @@ const onShowCalendar = () => {
   if (!props.disabled && !props.readonly) {
     isShow.value = !isShow.value;
   }
+};
+
+const onSelectAll = (e) => {
+  e.target.select();
 };
 
 watch(

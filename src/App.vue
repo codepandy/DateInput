@@ -2,7 +2,7 @@
 import DateInput from './DateInput/Index.vue';
 
 const onShowCallback = (val: string) => {
-  console.log('vvv', val);
+  // console.log('vvv', val);
 };
 </script>
 
